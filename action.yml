@@ -1,0 +1,34 @@
+name: "End-to-end tests with Playwright"
+description: "Setup Playwright and run end-to-end tests"
+
+inputs:
+  installation-timeout:
+    description: "Timeout for installing Playwright and Chromium"
+    required: false
+    default: 2
+  test-timeout:
+    description: "Timeout for running Playwright tests"
+    required: false
+    default: 3
+  continue-on-error:
+    description: "Continue on error for Playwright tests"
+    required: false
+    default: "true"
+  trace:
+    description: "Enable tracing for Playwright tests"
+    required: false
+    default: "on"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Playwright and Chromium
+      run: npx playwright install chromium --with-deps
+      timeout-minutes: ${{ inputs.installation-timeout }}
+
+    - name: Run Playwright tests
+      run: npx playwright test --reporter="list,html" --project=chromium --trace=${{ inputs.trace }} --retries=${ inputs.retries }}
+      timeout-minutes: ${{ inputs.test-timeout }}
+      continue-on-error: ${{ inputs.continue-on-error }}
+
+  
