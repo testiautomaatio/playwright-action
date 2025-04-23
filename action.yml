@@ -23,7 +23,7 @@ runs:
       shell: bash
 
     - name: Run Playwright tests
-      run: npx playwright test --reporter="list,html" --project=chromium --trace=${{ inputs.trace }} --retries=${ inputs.retries }} --global-timeout=$(( inputs.test-timeout * 60 * 1000 ))
+      run: npx playwright test --reporter="list,html" --project=chromium --trace=${{ inputs.trace }} --retries=${{ inputs.retries }} --global-timeout=$(( inputs.test-timeout * 60 * 1000 ))
       continue-on-error: ${{ inputs.continue-on-error }}
       shell: bash
 
