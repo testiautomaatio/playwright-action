@@ -9,7 +9,7 @@ inputs:
   continue-on-error:
     description: "Continue on error for Playwright tests"
     required: false
-    default: "true"
+    default: true
   trace:
     description: "Enable tracing for Playwright tests"
     required: false
@@ -23,8 +23,10 @@ runs:
       shell: bash
 
     - name: Run Playwright tests
-      run: npx playwright test --reporter="list,html" --project=chromium --trace=${{ inputs.trace }} --retries=${{ inputs.retries }} --global-timeout=$(( inputs.test-timeout * 60 * 1000 ))
-      continue-on-error: ${{ inputs.continue-on-error }}
+      env:
+        TIMEOUT: ${{ inputs.test-timeout }}
+      run: npx playwright test --reporter="list,html" --project=chromium --trace=${{ inputs.trace }} --retries=${{ inputs.retries }} --global-timeout=$(( $TIMEOUT * 60 * 1000 ))
+      continue-on-error: true
       shell: bash
 
   
